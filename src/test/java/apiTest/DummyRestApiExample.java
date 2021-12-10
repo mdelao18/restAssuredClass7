@@ -64,4 +64,13 @@ public class DummyRestApiExample {
                 post("create").then().spec(responseSpecification).log().body();
     }
 
+    @Test
+    public void DeleteAnEmployeeRecord(){
+        given().
+                spec(requestSpecification).delete("delete/15").
+                then().
+                spec(responseSpecification).
+                assertThat().body("message", equalTo("Successfully! Record has been deleted")).log().body();
+    }
+
 }
