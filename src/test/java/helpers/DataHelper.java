@@ -34,4 +34,10 @@ public class DataHelper {
     public static int generateRandomSalary(){
         return generateRandomInt(5000, 1000);
     }
+
+
+
+
+
+
 }
