@@ -1,6 +1,8 @@
 package apiTest;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
+
+import helpers.DataCountry;
 import helpers.DataHelper;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
@@ -8,18 +10,21 @@ import io.restassured.http.ContentType;
 import io.restassured.specification.*;
 import org.testng.annotations.*;
 import dataEntities.Employee;
+import dataEntities.Country;
 
 
 public class DummyRestApiExample {
     RequestSpecification requestSpecification;
     ResponseSpecification responseSpecification;
     Employee employee;
+    Country country;
 
     @BeforeTest
     public void setUp(){
         requestSpecification = new RequestSpecBuilder().
                 //setBaseUri("http://dummy.restapiexample.com/api/v1").build();
-        setBaseUri("http://dummy.restapiexample.com/api/v1").setContentType(ContentType.JSON).build();
+        //setBaseUri("http://dummy.restapiexample.com/api/v1").setContentType(ContentType.JSON).build();
+        setBaseUri("http://www.zippopotam.us/us/90210").setContentType(ContentType.JSON).build();
         responseSpecification = new ResponseSpecBuilder().
                 expectStatusCode(200).
                 expectContentType(ContentType.JSON).
@@ -90,4 +95,33 @@ public class DummyRestApiExample {
                 put("update/1").then().spec(responseSpecification).log().body();
 
     }
+
+    //Quiz # 4
+    //Agregar 2 pruebas para el API de zippopotamus.
+
+    String places[] = {"placeName:Heredia", "longitude:23", "state:SanRafael", "stateabbreviation:SR", "latitude: 22"};
+
+    private void initCountry(){
+        country = new Country("3000", "CostaRica", "CR", places );
+    }
+
+    //Get
+
+    @Test
+    public void GetCountry() {
+
+        given().spec(requestSpecification).
+                get("country").
+                then().spec(responseSpecification).
+                log().body();
+    }
+
+    // Post
+        @Test
+        public void CreateCountry(){
+            initCountry();
+            given().
+                    spec(requestSpecification.body(country)).
+                            post("create").then().spec(responseSpecification).log().body();
+        }
 }
