@@ -86,7 +86,8 @@ public class DummyRestApiExample {
     @Test
     public void UpdateOneEmployee(){
         initEmployee();
-        given().spec(requestSpecification.body(employee)).put("update/1").then().spec(responseSpecification).log().body();
+        given().spec(requestSpecification.body(employee)).
+                put("update/1").then().spec(responseSpecification).log().body();
 
     }
 }
